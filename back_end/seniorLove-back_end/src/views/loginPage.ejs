@@ -1,0 +1,21 @@
+<%- include ('partials/head') %>
+
+  <section class="container mt-5 mb-5">
+
+    <form method="POST" action="/admin/login"
+      class="border border-light rounded p-4 shadow-sm mx-auto d-flex flex-column" style="max-width: 400px;">
+      <h1 class="text-center mb-4">Connexion</h1>
+      <div class="form-group mb-4">
+        <label for="email">E-mail</label>
+        <input type="email" placeholder="E-mail" name="email" id="email" class="form-control" required />
+      </div>
+      <div class="form-group mb-4">
+        <label for="password">Mot de passe</label>
+        <input type="password" placeholder="Mot de passe" name="password" id="password" class="form-control" required />
+      </div>
+      <button type="submit" class="btn btn-primary w-50 mx-auto d-block">Se connecter</button>
+    </form>
+
+  </section>
+
+  <%- include('partials/footer') %>

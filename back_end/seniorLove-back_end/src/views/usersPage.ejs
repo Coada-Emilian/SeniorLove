@@ -1,0 +1,65 @@
+<%- include ('partials/navBar') %>
+
+  <main class="container-xl mt-4 d-flex">
+    <div class="container-fluid">
+      <div class="row">
+        <%- include ('partials/sideNav') %>
+
+          <div class="main_container col-md-9 p-3">
+            <div id="user-message-container" class="alert alert-danger" style="display: none;">
+              <p class="text-danger text-center mb-0">Utilisateur supprimé</p>
+            </div>
+
+            <% if(locals.displayAll) {%>
+              <h2>Tous les membres</h2>
+              <p>Nombre d'utilisateurs : <%= users.length %>
+              </p>
+              <% } else {%>
+                <h2>En attente de validation</h2>
+                <p>Nombre à inspecter : <%= users.length %>
+                </p>
+                <% } %>
+
+                  <table class="table table-striped table-hover text-center">
+                    <thead>
+                      <tr>
+                        <th>#id</th>
+                        <th>Nom</th>
+                        <th>Age</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% users.forEach((user)=> { %>
+                        <tr class="align-middle">
+                          <td>
+                            <%= user.id %>
+                          </td>
+                          <td>
+                            <%= user.name %>
+                          </td>
+                          <td>
+                            <%= user.age %>
+                          </td>
+                          <td class="fw-bold text-gray-900"
+                            style="background-color: <%= user.status === 'active' ? 'rgba(0, 128, 0, 0.5)' : user.status === 'pending' ? 'rgba(255, 255, 0, 0.5)' : 'rgba(255, 0, 0, 0.5)' %>">
+                            <%= user.status.toUpperCase() %>
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-outline-dark svg-hover"
+                              onclick="window.location.href='/admin/users/<%=user.id%>'">
+                              <img src="/logos/view-eye.svg" alt="Inspecter" class="pe-0 pe-lg-2 svg-image">
+                              <span class="d-none d-lg-inline">Inspecter</span>
+                            </button>
+                          </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                  </table>
+          </div>
+      </div>
+    </div>
+  </main>
+
+  <%- include('partials/footer') %>

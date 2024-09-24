@@ -1,0 +1,114 @@
+<%- include('partials/navBar') %>
+
+  <main class="container-xl mt-4">
+    <div class="row">
+      <%- include ('partials/sideNav') %>
+
+        <div class="col-md-9 p-3">
+          <h2>Inspection</h2>
+          <div class="user_card p-3 border border-light border-2 rounded-3 mb-3">
+
+            <div class="d-flex flex-column justify-content-between align-items-center flex-md-row gap-md-2 mb-4">
+              <!-- Details Container -->
+              <div class="details_container align-self-start " style="flex: 1">
+                <div class="status_container mb-4 p-3 text-center rounded-2 border border-muted shadow-lg" style=" width:fit-content; background-color: <%= user.status==='active' ? 'rgba(0, 128, 0, 0.5)' :
+                              user.status==='pending' ? 'rgba(255, 255, 0, 0.5)' : 'rgba(255, 0, 0, 0.5)' %>">
+                  <p class="fw-bold text-gray-900 fs-6 mb-0">
+                    <%= user.status.toUpperCase() %>
+                  </p>
+                </div>
+                <h4>#ID : <span class="text-muted fw-normal fst-italic">
+                    <%= user.id %>
+                  </span>
+                </h4>
+                <h4>Nom : <span class="text-muted fw-normal fst-italic">
+                    <%= user.name %>
+                  </span>
+                </h4>
+                <h4>E-mail : <span class="text-muted fw-normal fst-italic">
+                    <%= user.email %>
+                  </span>
+                </h4>
+                <h4>Age : <span class="text-muted fw-normal fst-italic">
+                    <%= user.age %>
+                  </span>
+                </h4>
+                <h4>Centres d’intérêt</h4>
+                <ul>
+                  <% user.hobbies.forEach((hobby)=> { %>
+                    <li class="fst-italic text-muted">
+                      <%= hobby.name %>
+                    </li>
+                    <% }) %>
+                </ul>
+              </div>
+
+              <!-- Image Container -->
+              <div class="image_container w-50 d-flex rounded-3 flex-shrink-0 shadow custom-div"
+                style="max-height: 20rem; overflow: hidden;">
+                <img src="<%= user.picture %>" alt="<%= user.name %>" class="img-fluid rounded-3"
+                  style="object-fit: cover;" />
+              </div>
+            </div>
+
+            <!-- Description Container -->
+            <div class="description_container">
+              <h4>Description</h4>
+              <p class="description_content fw-normal fst-italic text-muted">
+                <%= user.description %>
+              </p>
+            </div>
+          </div>
+
+          <!-- Dropdown -->
+          <div class="buttons_container d-flex flex-wrap gap-2 justify-content-center justify-content-md-end ">
+            <form class="d-flex justify-content-end gap-2" action="/admin/users/<%=user.id%>/status" method="POST"
+              id="statusForm">
+              <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  Changer le statut
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li><a class="dropdown-item" href="#" data-value="ACTIVE">ACTIVE</a></li>
+                  <li><a class="dropdown-item" href="#" data-value="PENDING">PENDING</a>
+                  </li>
+                  <li><a class="dropdown-item" href="#" data-value="BANNED">BANNED</a></li>
+                </ul>
+              </div>
+              <button type="submit" class="btn btn-success" id="user-submit_btn"
+                data-user-id="<%=user.id %>">Valider</button>
+            </form>
+            <button class="btn btn-secondary" id="user-cancel_btn">Annuler</button>
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#userDeleteModal">
+              Supprimer
+            </button>
+          </div>
+        </div>
+  </main>
+
+  <%- include('partials/footer') %>
+
+    <div class="modal fade" id="userDeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Suppression du compte de <span class="text-danger">
+                <%= user.name %>
+              </span>
+            </h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Souhaitez-vous vraiment supprimer ce compte ?
+            <p class="fst-italic fw-lighter">(Cette action est <span class="text-danger fw-normal">irréversible</span>)
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" id="user-delete_btn"
+              data-user-id="<%=user.id %>">Supprimer</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </div>

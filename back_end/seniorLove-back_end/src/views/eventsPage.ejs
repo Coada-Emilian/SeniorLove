@@ -1,0 +1,88 @@
+<%- include ('partials/navBar') %>
+
+  <main class="container-xl mt-4 d-flex p-1 p-sm-2">
+    <div class="container-fluid p-1 p-sm-2">
+      <div class="row">
+        <%- include ('partials/sideNav') %>
+ 
+          <div class="main_container col-md-9 p-3">
+            <div id="eventDeletion-message-container" class="alert alert-danger" style="display: none;">
+              <p class="text-danger text-center mb-0">Événement supprimé</p>
+            </div>
+            <div id="eventCreation-message-container" class="alert alert-success" style="display: none;">
+              <p class="text-success text-center mb-0">Événement créé</p>
+            </div>
+
+            <h2>Liste des événements</h2>
+            <p>Nombre d’événements : <%=events.length %>
+            </p>
+            <div class="table-responsive">
+              <table class="table table-striped table-hover text-center fw-medium custom-table">
+                <thead>
+                  <tr>
+                    <th>#id</th>
+                    <th>Nom</th>
+                    <th>Date</th>
+                    <th colspan="2">Action</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <% events.forEach((event)=> { %>
+                    <tr class="align-middle">
+                      <td>
+                        <%= event.id %>
+                      </td>
+
+                      <td>
+                        <%= event.name %>
+                      </td>
+
+                      <td>
+                        <%= new Date(event.date).toLocaleDateString('fr') %>
+                      </td>
+
+                      <td class="fw-bold text-gray-900">
+                        <button type="button" class="btn btn-outline-dark svg-hover"
+                          onclick="window.location.href='/admin/events/<%=event.id%>'"><img src="/logos/edit-2.svg"
+                            alt="Modifier" class="pe-0 pe-lg-2 svg-image"><span
+                            class="d-none d-lg-inline">Modifier</span></button>
+                      </td>
+
+                      <td>
+                        <button type="button" class="btn btn-danger event-delete_btn" data-bs-toggle="modal"
+                          data-bs-target="#eventDeleteModal" data-event-id="<%= event.id %>">
+                          <img src="/logos/trash-2.svg" alt="supprimer" class="pe-0 pe-lg-2 svg-image"><span
+                            class="d-none d-lg-inline ">Supprimer</span></button>
+                      </td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+
+              </table>
+            </div>
+          </div>
+      </div>
+    </div>
+  </main>
+
+  <%- include('partials/footer') %>
+  
+    <div class="modal fade" id="eventDeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Suppression d'événement</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Souhaitez-vous vraiment supprimer cet événement ?
+            <p class="fst-italic fw-lighter">(Cette action est irréversible)</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" id="confirmDeleteButton">Supprimer</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </div>
