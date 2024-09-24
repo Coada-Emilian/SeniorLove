@@ -27,7 +27,7 @@ User.init(
       type: DataTypes.STRING(10),
       allowNull: false,
     },
-    picture: {
+    picture_url: {
       type: DataTypes.STRING(255),
     },
     picture_id: {

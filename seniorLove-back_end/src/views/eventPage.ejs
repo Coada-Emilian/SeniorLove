@@ -46,10 +46,10 @@
                 <label for="image" class="fw-medium">Image</label>
                 <input type="file" name="<% if(locals.updateEvent) {%>picture<% } else {%>photo<% } %>" id="image"
                   class="form-control" <% if (locals.updateEvent) { %>
-                value="<%=event.picture %>"<% } %> />
+                value="<%=event.picture_url %>"<% } %> />
                     <% if(locals.event) { %>
                       <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#imageModal">
-                        <img src="<%= event.picture %>" alt="<%= event.name %>" class="event-img"
+                        <img src="<%= event.picture_url %>" alt="<%= event.name %>" class="event-img"
                           style="cursor:pointer;" />
                       </a>
                       <% } %>
@@ -123,7 +123,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center">
-              <a href="<%= event.picture %>" target="_blank"><img src="<%= event.picture %>" alt="<%= event.name %>"
+              <a href="<%= event.picture_url %>" target="_blank"><img src="<%= event.picture_url %>" alt="<%= event.name %>"
                   class="img-fluid"></a>
             </div>
           </div>

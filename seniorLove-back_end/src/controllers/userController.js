@@ -34,7 +34,7 @@ const userController = {
         status: 'active',
         id: { [Op.not]: excludedUserId },
       },
-      attributes: ['id', 'name', 'birth_date', 'picture'],
+      attributes: ['id', 'name', 'birth_date', 'picture_url'],
     });
 
     // If no users are found, return an error
@@ -83,7 +83,7 @@ const userController = {
         { association: 'hobbies', attributes: ['id', 'name'] },
         {
           association: 'events',
-          attributes: ['id', 'name', 'location', 'picture', 'date', 'time'],
+          attributes: ['id', 'name', 'location', 'picture_url', 'date', 'time'],
         },
       ],
     });
@@ -100,7 +100,7 @@ const userController = {
       birth_date,
       description,
       gender,
-      picture,
+      picture_url,
       hobbies,
       events,
     } = foundUser;
@@ -113,7 +113,7 @@ const userController = {
       age: computeAge(birth_date),
       description,
       gender,
-      picture,
+      picture_url,
       hobbies,
       events,
     };
@@ -141,14 +141,14 @@ const userController = {
         'birth_date',
         'description',
         'gender',
-        'picture',
+        'picture_url',
         'email',
         'status',
       ],
       include: [
         {
           association: 'events',
-          attributes: ['id', 'name', 'location', 'picture', 'date', 'time'],
+          attributes: ['id', 'name', 'location', 'picture_url', 'date', 'time'],
         },
         {
           association: 'hobbies',
@@ -209,7 +209,7 @@ const userController = {
         .optional(),
       description: Joi.string().optional(),
       gender: Joi.string().max(10).valid('male', 'female', 'other').optional(),
-      picture: Joi.string().max(255).optional(),
+      picture_url: Joi.string().max(255).optional(),
       picture_id: Joi.string().max(255).optional(),
       email: Joi.string().max(255).email({ minDomainSegments: 2 }).optional(),
       new_password: Joi.string().min(12).max(255).optional(),
@@ -266,7 +266,7 @@ const userController = {
       birth_date,
       description,
       gender,
-      picture,
+      picture_url,
       picture_id,
       new_password,
       old_password,
@@ -281,7 +281,7 @@ const userController = {
       birth_date: birth_date || foundUser.birth_date,
       description: description || foundUser.description,
       gender: gender || foundUser.gender,
-      picture: picture || foundUser.picture,
+      picture_url: picture_url || foundUser.picture_url,
       picture_id: picture_id || foundUser.picture_id,
       email: email || foundUser.email,
     };
@@ -347,7 +347,7 @@ const userController = {
         },
         {
           association: 'events',
-          attributes: ['id', 'name', 'location', 'picture', 'date', 'time'],
+          attributes: ['id', 'name', 'location', 'picture_url', 'date', 'time'],
         },
       ],
     });
@@ -359,7 +359,7 @@ const userController = {
       birth_date: updatedUser.birth_date,
       description: updatedUser.description,
       gender: updatedUser.gender,
-      picture: updatedUser.picture,
+      picture_url: updatedUser.picture_url,
       email: updatedUser.email,
       hobbies: updatedUser.hobbies,
       age: computeAge(updatedUser.birth_date),
@@ -407,7 +407,7 @@ const userController = {
 
     // Get all active users with the same hobbies via the User model including hobbies
     const mySuggestions = await User.findAll({
-      attributes: ['id', 'name', 'gender', 'birth_date', 'picture'],
+      attributes: ['id', 'name', 'gender', 'birth_date', 'picture_url'],
       include: {
         association: 'hobbies',
         attributes: [],
@@ -430,7 +430,7 @@ const userController = {
         gender: user.gender,
         birth_date: user.birth_date,
         age: computeAge(user.birth_date),
-        picture: user.picture,
+        picture_url: user.picture_url,
       };
       mySuggestionsToSendArray.push(userObject);
     });
@@ -573,7 +573,7 @@ const userController = {
     }
 
     // Update user's picture URL and picture ID
-    user.picture = filePath;
+    user.picture_url = filePath;
     user.picture_id = filename;
 
     // Save the user

@@ -25,8 +25,8 @@ const messageController = {
       where: { [Op.or]: [{ sender_id: id }, { receiver_id: id }] },
       attributes: { exclude: 'updated_at' },
       include: [
-        { association: 'sender', attributes: ['id', 'name', 'picture'] },
-        { association: 'receiver', attributes: ['id', 'name', 'picture'] },
+        { association: 'sender', attributes: ['id', 'name', 'picture_url'] },
+        { association: 'receiver', attributes: ['id', 'name', 'picture_url'] },
       ],
     });
 
@@ -75,7 +75,7 @@ const messageController = {
           attributes: { exclude: ['updated_at'] },
           include: {
             association: 'sender',
-            attributes: ['id', 'name', 'picture'],
+            attributes: ['id', 'name', 'picture_url'],
           },
         },
         {
@@ -86,11 +86,11 @@ const messageController = {
           attributes: { exclude: ['updated_at'] },
           include: {
             association: 'sender',
-            attributes: ['id', 'name', 'picture'],
+            attributes: ['id', 'name', 'picture_url'],
           },
         },
       ],
-      attributes: ['id', 'name', 'picture'],
+      attributes: ['id', 'name', 'picture_url'],
       where: {
         [Op.or]: [
           { '$received_messages.id$': { [Op.ne]: null } }, // Users who received messages from you
@@ -120,7 +120,7 @@ const messageController = {
       const converserObject = {
         id: converser.id,
         name: converser.name,
-        picture: converser.picture,
+        picture_url: converser.picture_url,
         messages: [
           ...converser.received_messages,
           ...converser.sent_messages,

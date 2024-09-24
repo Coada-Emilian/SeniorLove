@@ -27,7 +27,7 @@ const authController = {
       name: Joi.string().max(50).required(),
       birth_date: Joi.date().required(),
       description: Joi.string(),
-      picture: Joi.string(),
+      picture_url: Joi.string(),
       picture_id: Joi.string(),
       gender: Joi.string().max(10).valid('male', 'female', 'other').required(),
       email: Joi.string().email({ minDomainSegments: 2 }).required(),
@@ -65,11 +65,11 @@ const authController = {
     }
 
     // Handle file upload (optional picture)
-    let picture = null;
+    let picture_url = null;
     let picture_id = null;
     // If there is a file, set the picture and picture_id variables
     if (req.file) {
-      picture = req.file.path;
+      picture_url = req.file.path;
       picture_id = req.file.filename;
     }
 
@@ -78,7 +78,7 @@ const authController = {
       name: body.name,
       birth_date: body.birth_date,
       description: body.description,
-      picture,
+      picture_url,
       picture_id,
       gender: body.gender,
       email: body.email,
@@ -151,7 +151,7 @@ const authController = {
     res.status(200).json({
       id: foundUser.id,
       name: foundUser.name,
-      picture: foundUser.picture,
+      picture_url: foundUser.picture_url,
       token,
     });
   },

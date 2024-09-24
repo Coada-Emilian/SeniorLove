@@ -376,7 +376,7 @@ const adminController = {
       const { name, date, location, time, hobbies, description } = req.body;
 
       // Extract file details from the request
-      const picture = req.file.path; // Path to the uploaded image
+      const picture_url = req.file.path; // Path to the uploaded image
       const picture_id = req.file.filename; // Filename for the uploaded image
 
       // Extract admin ID from the session
@@ -396,7 +396,7 @@ const adminController = {
         name,
         location,
         description,
-        picture,
+        picture_url,
         picture_id,
         date,
         time,
@@ -560,7 +560,7 @@ const adminController = {
       });
 
       // Initialize picture and picture_id with the existing values from the event
-      let picture = eventToUpdate.picture;
+      let picture_url = eventToUpdate.picture_url;
       let picture_id = eventToUpdate.picture_id;
 
       // Check if a new file was uploaded
@@ -569,7 +569,7 @@ const adminController = {
         const oldPictureId = picture_id;
 
         // Update picture path and ID with the new file details
-        picture = req.file.path;
+        picture_url = req.file.path;
         picture_id = req.file.filename;
 
         // Delete the old image from Cloudinary storage
@@ -581,7 +581,7 @@ const adminController = {
         name,
         location,
         description,
-        picture,
+        picture_url,
         picture_id,
         date,
         time,

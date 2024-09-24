@@ -15,7 +15,7 @@ for (const user of users) {
   const birth = user.birth_date;
   const description = user.description;
   const gender = user.gender;
-  const picture = user.picture;
+  const picture_url = user.picture_url;
   const email = user.email;
   const status = user.status;
 
@@ -23,7 +23,7 @@ for (const user of users) {
   const password = Scrypt.hash(user.password);
 
   // Insert the user into the database with SQL injection protection
-  const query = `INSERT INTO users (name, birth_date, description, gender, picture, email, password, status)
+  const query = `INSERT INTO users (name, birth_date, description, gender, picture_url, email, password, status)
         VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *`;
 
   // Execute the query
@@ -32,7 +32,7 @@ for (const user of users) {
     birth,
     description,
     gender,
-    picture,
+    picture_url,
     email,
     password,
     status,
