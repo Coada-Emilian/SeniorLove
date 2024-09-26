@@ -65,7 +65,7 @@ CREATE TABLE hobbies (
 -- Table: users_messages
 CREATE TABLE users_messages (
     "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    "message" TEXT NOT NULL,
+    "message_content" TEXT NOT NULL,
     "sender_id" INT REFERENCES "users"("id") ON DELETE SET NULL,
     "receiver_id" INT REFERENCES "users"("id") ON DELETE SET NULL,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),

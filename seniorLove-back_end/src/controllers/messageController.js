@@ -139,7 +139,7 @@ const messageController = {
 
     // Check if id is a number
     if (isNaN(id)) {
-      return res.status(400).json({ message: 'this id is not valid' });
+      return res.status(400).json({ message: 'This id is not valid' });
     }
 
     // Check if user exists via the User model using the id
@@ -159,7 +159,7 @@ const messageController = {
 
     // Create a schema for the message
     const messageSchema = Joi.object({
-      message: Joi.string().required(),
+      message_content: Joi.string().required(),
       receiver_id: Joi.number().integer().min(1).invalid(id).required(),
     });
 
@@ -168,12 +168,11 @@ const messageController = {
     if (error) {
       return res.status(400).json({ message: error.message });
     }
-
     // Once the message body is validated, check if the receiver is an active user
-    const { message, receiver_id } = req.body;
+    const { message_content, receiver_id } = req.body;
 
     // Check if the receiver is an active user
-    if (!(await isActiveUser(req.body.receiver_id))) {
+    if (!(await isActiveUser(receiver_id))) {
       // If the receiver is not an active user, return an error
       return res
         .status(403)
@@ -182,11 +181,10 @@ const messageController = {
 
     // Create a new message using the User_message model
     const messageSent = await User_message.create({
-      message,
+      message_content,
       sender_id: id,
       receiver_id,
     });
-
     // If the request is ok send the message as a json response
     res.status(201).json(messageSent);
   },

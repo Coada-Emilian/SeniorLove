@@ -554,7 +554,7 @@ const userController = {
     const { path: filePath, filename } = req.file;
 
     // Retrieve user to get the old picture ID
-    const user = await User.findByPk(userId);
+    const user = await User.findByPk(id);
     // If no user is found, return an error
     if (!user) {
       throw new Error('User not found. Please try with a different ID.');

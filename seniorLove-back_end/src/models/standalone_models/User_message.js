@@ -12,7 +12,7 @@ User_message.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    message: {
+    message_content: {
       type: DataTypes.TEXT,
       allowNull: false,
     },

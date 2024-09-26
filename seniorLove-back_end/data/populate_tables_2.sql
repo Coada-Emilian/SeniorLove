@@ -6,7 +6,7 @@ SET client_encoding = 'UTF8';
 BEGIN;
 
 -- Insert sample data into users_messages
-INSERT INTO "users_messages" ("message", "sender_id", "receiver_id", "created_at") VALUES
+INSERT INTO "users_messages" ("message_content", "sender_id", "receiver_id", "created_at") VALUES
 ('Bonjour Michel, quel est votre passe-temps préféré ?', 1, 2, '2024-08-01 09:00:00+00'),
 ('Bonjour Jacqueline, j’adore le jardinage. Et vous ?', 2, 1, '2024-08-01 09:05:00+00'),
 ('Je suis passionnée par la lecture. Quel genre de livres aimez-vous ?', 1, 3, '2024-08-02 10:15:00+00'),
