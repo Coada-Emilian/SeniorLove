@@ -192,7 +192,14 @@ INSERT INTO "events_hobbies" ("event_id", "hobby_id", "created_at") VALUES
 (10, 5, NOW()), (10, 9, NOW()),
 (11, 3, NOW()), (11, 9, NOW()),
 (12, 1, NOW()), (12, 12, NOW()),
-(13, 8, NOW());
+(13, 8, NOW()),
+(14, 2, NOW()),
+(15, 2, NOW()),
+(16, 2, NOW()), (16, 10, NOW()),
+(17, 3, NOW()), (17, 5, NOW()),
+(18, 1, NOW()), (18, 3, NOW()),
+(19, 3, NOW()), (19, 9, NOW());
+
 
 COMMIT;
 
