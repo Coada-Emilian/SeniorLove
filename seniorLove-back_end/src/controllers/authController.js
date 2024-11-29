@@ -132,6 +132,7 @@ const authController = {
       return res.status(401).json({ blocked: true });
     }
 
+    // Compare the password with the hashed password
     const isGood = Scrypt.compare(password, foundUser.password);
 
     if (!isGood) {
@@ -141,6 +142,7 @@ const authController = {
       });
     }
 
+    // Create a JWT token
     const jwtContent = { userId: foundUser.id };
 
     const token = jsonwebtoken.sign(jwtContent, process.env.TOKEN_KEY, {

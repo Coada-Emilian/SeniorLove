@@ -38,15 +38,21 @@ privateRouter.get(
   checkLoggedIn,
   cw(userController.getOneUser)
 );
-privateRouter.delete('/users/me/delete', cw(userController.deleteUser));
+privateRouter.delete(
+  '/users/me/delete',
+  checkLoggedIn,
+  cw(userController.deleteUser)
+);
 
 // Events routes
 privateRouter.put(
   '/events/:eventId/register',
+  checkLoggedIn,
   cw(userController.addUserToEvent)
 );
 privateRouter.delete(
   '/events/:eventId/unregister',
+  checkLoggedIn,
   cw(userController.removeUserFromEvent)
 );
 

@@ -61,7 +61,7 @@ const adminController = {
       return res.status(401).render('loginPage', {
         error:
           'Email et/ou mot de passe invalide. Veuillez vérifier vos informations et réessayer.',
-        statusCode: 404,
+        statusCode: 401,
       });
     }
 
@@ -146,6 +146,13 @@ const adminController = {
         attributes: ['id', 'name', 'birth_date', 'status'],
         order: [['id', 'ASC']],
       });
+
+      if (!pendingUsers) {
+        return res.status(404).render('errorPage', {
+          error: 'Aucun utilisateur en attente trouvé.',
+          statusCode: 404,
+        });
+      }
 
       // Compute the age of each user via the computeAge function
       const pendingUsersWithAge = pendingUsers.map((user) => ({

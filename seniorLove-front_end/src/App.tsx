@@ -15,69 +15,125 @@ import SignalIllegalContentPage from './components/pageComponents/FooterPages/Si
 import ConfidentialityPage from './components/pageComponents/FooterPages/ConfidentialityPage';
 import GeneralConditionsPage from './components/pageComponents/FooterPages/GeneralConditionsPage';
 import CookieUsePolicyPage from './components/pageComponents/FooterPages/CookieUsePolicyPage';
+import Footer from './components/standaloneComponents/Footer/Footer';
+import NavBar from './components/standaloneComponents/NavBar/NavBar';
+import UserHeadband from './components/standaloneComponents/UserHeadband/UserHeadband';
+import { useEffect, useState } from 'react';
+import { getTokenAndDataFromLocalStorage } from './localStorage/localStorage';
+import axios from './axios';
 
-interface AppProps {
-  isAuthenticated: boolean;
-  setUserToken: React.Dispatch<React.SetStateAction<string | null>>;
-  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
-}
+export default function App() {
+    // State to track user authentication status
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  // State to track user token
+  const [userToken, setUserToken] = useState<string | null>(() => {
+    const response = getTokenAndDataFromLocalStorage();
+    return response?.token || null;
+  });
 
-export default function App({
-  isAuthenticated,
-  setUserToken,
-  setIsAuthenticated,
-}: AppProps) {
+  useEffect(() => {
+    // Function to check if the user is authenticated
+    const checkAuthentication = () => {
+      // Get token from localStorage
+      const response = getTokenAndDataFromLocalStorage();
+      const token = response?.token;
+      // Check if token matches localStorage token
+      if (token && token === userToken) {
+        setIsAuthenticated(true);
+        // Set axios Authorization header
+        axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('token')}`;
+      } else {
+        // If token doesn't match, log out
+        setIsAuthenticated(false);
+        setUserToken(null);
+        delete axios.defaults.headers.common.Authorization;
+      }
+    };
+
+    // Run on component mount to check if token matches localStorage
+    checkAuthentication();
+
+    // Listen for changes to localStorage (e.g., via Chrome DevTools or another tab)
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === 'token') {
+        checkAuthentication();
+      }
+    };
+
+    // Add event listener for storage changes
+    window.addEventListener('storage', handleStorageChange);
+
+    // Poll localStorage periodically to catch any changes
+    const intervalId = setInterval(checkAuthentication, 5000); // Check every 5 seconds
+
+    return () => {
+      // Remove event listener and clear interval on component unmount
+      window.removeEventListener('storage', handleStorageChange);
+      clearInterval(intervalId);
+    };
+  }, [userToken, isAuthenticated]);
   return (
-    <Routes>
-      {isAuthenticated ? (
+    <>
+     {isAuthenticated ? (
         <>
-          <Route path="/" element={<Navigate to="/home" />} />
-          <Route path="/home" element={<HomePageLogged />} />
-          <Route path="/profiles" element={<ProfilesPage />} />
-          <Route path="/profiles/:userId" element={<ProfilePage />} />
-          <Route path="/messages" element={<MessagePage />} />
-          <Route
-            path="/myProfile"
-            element={<OwnProfilePage setIsAuthenticated={setIsAuthenticated} />}
-          />
-          <Route
-            path="/events"
-            element={<EventsPage isAuthenticated={isAuthenticated} />}
-          />
-          <Route
-            path="/events/:id"
-            element={<EventPage isAuthenticated={isAuthenticated} />}
-          />
+          <NavBar isUserAuthenticated />
+          <UserHeadband setIsAuthenticated={setIsAuthenticated} />
         </>
       ) : (
-        <>
-          <Route path="/" element={<HomePage />} />
-          <Route
-            path="/login"
-            element={<ConnexionPage setUserToken={setUserToken} />}
-          />
-          <Route
-            path="/events"
-            element={<EventsPage isAuthenticated={isAuthenticated} />}
-          />
-          <Route
-            path="/events/:id"
-            element={<EventPage isAuthenticated={isAuthenticated} />}
-          />
-        </>
+          <NavBar/>
       )}
+      <Routes>
+        {isAuthenticated ? (
+          <>
+            <Route path="/" element={<Navigate to="/home" />} />
+            <Route path="/home" element={<HomePageLogged />} />
+            <Route path="/profiles" element={<ProfilesPage />} />
+            <Route path="/profiles/:userId" element={<ProfilePage />} />
+            <Route path="/messages" element={<MessagePage />} />
+            <Route
+              path="/myProfile"
+              element={<OwnProfilePage setIsAuthenticated={setIsAuthenticated} />}
+            />
+            <Route
+              path="/events"
+              element={<EventsPage isAuthenticated={isAuthenticated} />}
+            />
+            <Route
+              path="/events/:id"
+              element={<EventPage isAuthenticated={isAuthenticated} />}
+            />
+          </>
+        ) : (
+          <>
+            <Route path="/" element={<HomePage />} />
+            <Route
+              path="/login"
+              element={<ConnexionPage setUserToken={setUserToken} />}
+            />
+            <Route
+              path="/events"
+              element={<EventsPage isAuthenticated={isAuthenticated} />}
+            />
+            <Route
+              path="/events/:id"
+              element={<EventPage isAuthenticated={isAuthenticated} />}
+            />
+          </>
+        )}
 
-      <Route path="/guidelines" element={<CommunityGuidelinesPage />} />
-      <Route path="/signal" element={<SignalIllegalContentPage />} />
-      <Route path="/confidentiality" element={<ConfidentialityPage />} />
-      <Route path="/conditions" element={<GeneralConditionsPage />} />
-      <Route path="/cookies" element={<CookieUsePolicyPage />} />
-      <Route path="/loggedOut" element={<ErrorAuthPage />} />
+        <Route path="/guidelines" element={<CommunityGuidelinesPage />} />
+        <Route path="/signal" element={<SignalIllegalContentPage />} />
+        <Route path="/confidentiality" element={<ConfidentialityPage />} />
+        <Route path="/conditions" element={<GeneralConditionsPage />} />
+        <Route path="/cookies" element={<CookieUsePolicyPage />} />
+        <Route path="/loggedOut" element={<ErrorAuthPage />} />
 
-      <Route
-        path="*"
-        element={<Error404Page isAuthenticated={isAuthenticated} />}
-      />
-    </Routes>
+        <Route
+          path="*"
+          element={<Error404Page isAuthenticated={isAuthenticated} />}
+        />
+      </Routes>
+    <Footer />
+    </>
   );
 }

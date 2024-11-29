@@ -1,6 +1,6 @@
 // Unit test for the computeAge function
 
-import computeAge from './computeAge';
+import computeAge from './computeAge.js';
 
 import { describe, test, expect } from '@jest/globals';
 

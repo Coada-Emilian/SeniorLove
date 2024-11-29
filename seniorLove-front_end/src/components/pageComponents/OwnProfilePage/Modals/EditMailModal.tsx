@@ -2,6 +2,7 @@ import ReactModal from 'react-modal';
 import { useState } from 'react';
 import { IUser } from '../../../../@types/IUser';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
+import { error } from 'console';
 
 interface EditMailModalProps {
   isEmailModalOpen: boolean;
@@ -19,10 +20,20 @@ export default function EditMailModal({
   // State for the new email
   const [newEmail, setNewEmail] = useState('');
 
+  const [errorMessage, setErrorMessage] = useState('');
+
   // Function to validate the new email
   const validateEmail = async () => {
-    setEditedProfile((prev) => ({ ...prev, email: newEmail }));
-    setIsEmailModalOpen(false);
+    if (!newEmail) {
+      setErrorMessage('Veuillez entrer une adresse e-mail.');
+    } else if (newEmail === user.email) {
+      setErrorMessage('La nouvelle adresse e-mail doit être différente.');
+    } else if (!newEmail.includes('@')) {
+      setErrorMessage('Veuillez entrer une adresse e-mail valide.');
+    } else {
+      setEditedProfile((prev) => ({ ...prev, email: newEmail }));
+      setIsEmailModalOpen(false);
+    }
   };
 
   return (
@@ -67,12 +78,16 @@ export default function EditMailModal({
             type="email"
             name="new-email"
             id="new-email"
-            onChange={(e) => setNewEmail(e.target.value)}
+            onChange={(e) => {
+              setErrorMessage(''), setNewEmail(e.target.value);
+            }}
             placeholder="Veuillez entrer votre nouvelle adresse e-mail"
             className="border border-gray-300 rounded-lg px-3 py-2 text-gray-600"
           />
         </div>
-
+        {errorMessage && (
+          <p className="text-red-600 text-sm text-center">{errorMessage}</p>
+        )}
         <DefaultBtn btnText="Valider" onClick={() => validateEmail()} />
       </div>
     </ReactModal>

@@ -3,16 +3,11 @@
 import Joi from 'joi';
 import { Op } from 'sequelize';
 import { v2 as cloudinary } from 'cloudinary';
-import multer from 'multer';
 
 import { isActiveUser } from '../utils/checkUserStatus.js';
 import { User, Hobby, Event, User_hobby } from '../models/index.js';
 import computeAge from '../utils/computeAge.js';
 import { Scrypt } from '../auth/Scrypt.js';
-import { userPhotoStorage } from '../cloudinary/index.js';
-
-// Multer configuration to use Cloudinary storage
-multer({ storage: userPhotoStorage });
 
 // User controller object
 const userController = {

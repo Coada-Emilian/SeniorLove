@@ -45,7 +45,6 @@ export default function ConnectionFormSection({
       );
       // Set token in state to manage user connection, and navigate to home page
       setUserToken(response.data.token);
-      setErrorLog(false);
       navigate('/home');
     } catch (e) {
       // If status is 401, it means email and/or password are invalid

@@ -20,6 +20,15 @@ const __dirname = path.dirname(__filename);
 // Initialize Express application
 const app = express();
 
+// Set Content Security Policy (CSP) header
+app.use((req, res, next) => {
+  res.setHeader(
+    'Content-Security-Policy',
+    "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' https://img.freepik.com https://res.cloudinary.com https://images.pexels.com data:; object-src 'none';"
+  );
+  next();
+});
+
 // CORS options configuration
 const corsOptions = {
   origin: process.env.ALLOWED_DOMAINS, // Set allowed origins from environment variable

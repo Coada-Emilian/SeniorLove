@@ -102,7 +102,9 @@ export default function EditPasswordModal({
               type={showOldPassword ? 'text' : 'password'}
               name="old-password"
               id="old-password"
-              onChange={(e) => setOldPassword(e.target.value)}
+              onChange={(e) => {
+                setErrorMessage(''), setOldPassword(e.target.value);
+              }}
               placeholder="Entrez votre mot de passe actuel"
               className="w-full"
             />
@@ -130,7 +132,9 @@ export default function EditPasswordModal({
               type={showNewPassword ? 'text' : 'password'}
               name="new-password"
               id="new-password"
-              onChange={(e) => setNewPassword(e.target.value)}
+              onChange={(e) => {
+                setErrorMessage(''), setNewPassword(e.target.value);
+              }}
               placeholder="Entrez le nouveau mot de passe"
               className="w-full"
             />
@@ -158,7 +162,9 @@ export default function EditPasswordModal({
               type={showRepeatPassword ? 'text' : 'password'}
               name="confirm-password"
               id="confirm-password"
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={(e) => {
+                setErrorMessage(''), setConfirmPassword(e.target.value);
+              }}
               placeholder="Confirmez le nouveau mot de passe"
               className="w-full"
             />
