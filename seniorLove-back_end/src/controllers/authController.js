@@ -3,7 +3,6 @@
 import 'dotenv/config';
 import Joi from 'joi';
 import jsonwebtoken from 'jsonwebtoken';
-
 import computeAge from '../utils/computeAge.js';
 import { User, Hobby } from '../models/index.js';
 import { Scrypt } from '../auth/Scrypt.js';
@@ -12,11 +11,8 @@ import { Scrypt } from '../auth/Scrypt.js';
 const authController = {
   // Add a user
   addUser: async (req, res) => {
-    // Check if the request contains a body
-    const body = req.body;
-
     // If no body, return an error
-    if (!body) {
+    if (!req.body) {
       return res.status(400).json({
         message: 'Request body is missing. Please provide the necessary data.',
       });
@@ -27,8 +23,6 @@ const authController = {
       name: Joi.string().max(50).required(),
       birth_date: Joi.date().required(),
       description: Joi.string(),
-      picture_url: Joi.string(),
-      picture_id: Joi.string(),
       gender: Joi.string().max(10).valid('male', 'female', 'other').required(),
       email: Joi.string().email({ minDomainSegments: 2 }).required(),
       password: Joi.string().min(12).max(255).required(),
@@ -37,24 +31,40 @@ const authController = {
     });
 
     // Validate the body via the schema
-    const { error } = registerSchema.validate(body);
+    const { error } = registerSchema.validate(req.body);
+
     if (error) {
       return res.status(400).json({ message: error.message });
     }
 
+    const {
+      name,
+      birth_date,
+      description,
+      gender,
+      email,
+      password,
+      repeat_password,
+      hobbies,
+    } = req.body;
+
     // Age control via the computeAge function
-    if (computeAge(req.body.birth_date) < 60) {
+    if (computeAge(birth_date) < 60) {
       return res.status(400).json({
         message: 'Registration is restricted to individuals aged 60 and above.',
       });
     }
 
     // Check if the password and the repeated password are the same
-    const { repeat_password, email } = req.body;
+    if (password !== repeat_password) {
+      return res.status(400).json({
+        message: 'Passwords do not match. Please try again.',
+      });
+    }
 
     // Check if email already exists
     const potentialExistingUser = await User.findOne({
-      where: { email: email },
+      where: { email },
     });
     // If the email already exists, return an error
     if (potentialExistingUser) {
@@ -67,6 +77,7 @@ const authController = {
     // Handle file upload (optional picture)
     let picture_url = null;
     let picture_id = null;
+
     // If there is a file, set the picture and picture_id variables
     if (req.file) {
       picture_url = req.file.path;
@@ -75,18 +86,15 @@ const authController = {
 
     // Create a new user via the User model
     const createdUser = await User.create({
-      name: body.name,
-      birth_date: body.birth_date,
-      description: body.description,
+      name,
+      birth_date,
+      description,
       picture_url,
       picture_id,
-      gender: body.gender,
-      email: body.email,
+      gender,
+      email,
       password: Scrypt.hash(repeat_password),
     });
-
-    // Fetch hobbies from the database and associate with the user
-    const hobbies = req.body.hobbies;
 
     // Fetch hobbies from the database
     const userHobbies = await Hobby.findAll({
@@ -129,7 +137,11 @@ const authController = {
       foundUser.status === 'banned' ||
       foundUser.status === 'pending'
     ) {
-      return res.status(401).json({ blocked: true });
+      return res.status(401).json({
+        blocked: true,
+        message:
+          'Unauthorized access. Please check your credentials and try again.',
+      });
     }
 
     // Compare the password with the hashed password

@@ -1,3 +1,5 @@
+// Purpose : Axios instance to make requests to the backend
+
 import axios from 'axios';
 
 const instance = axios.create({

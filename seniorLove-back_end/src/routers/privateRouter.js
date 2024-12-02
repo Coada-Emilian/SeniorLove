@@ -2,7 +2,6 @@
 
 import { Router } from 'express';
 import multer from 'multer';
-
 import userController from '../controllers/userController.js';
 import messageController from '../controllers/messageController.js';
 import { controllerWrapper as cw } from '../middlewares/controllerWrapper.js';
@@ -16,17 +15,21 @@ export const privateRouter = Router();
 
 // User routes
 privateRouter.get('/users/me', cw(userController.getConnectedUser));
+
 privateRouter.get('/users', checkLoggedIn, cw(userController.getAllUsers));
+
 privateRouter.patch(
   '/users/me',
   checkLoggedIn,
   cw(userController.updateUserProfile)
 );
+
 privateRouter.post(
   '/users/:userId/uploadPhoto',
   uploadUserPhoto.single('new-image'),
   userController.uploadUserImage
 );
+
 privateRouter.get(
   '/users/me/suggestions',
   checkLoggedIn,
@@ -38,6 +41,7 @@ privateRouter.get(
   checkLoggedIn,
   cw(userController.getOneUser)
 );
+
 privateRouter.delete(
   '/users/me/delete',
   checkLoggedIn,
@@ -50,6 +54,7 @@ privateRouter.put(
   checkLoggedIn,
   cw(userController.addUserToEvent)
 );
+
 privateRouter.delete(
   '/events/:eventId/unregister',
   checkLoggedIn,
@@ -68,6 +73,7 @@ privateRouter.get(
   checkLoggedIn,
   cw(messageController.getAllUserMessages)
 );
+
 privateRouter.post(
   '/messages',
   checkLoggedIn,

@@ -2,7 +2,6 @@
 
 import Joi from 'joi';
 import { v2 as cloudinary } from 'cloudinary';
-
 import { Admin, User, Hobby, Event } from '../models/index.js';
 import { Scrypt } from '../auth/Scrypt.js';
 import computeAge from '../utils/computeAge.js';
@@ -210,6 +209,12 @@ const adminController = {
             'Identifiant utilisateur manquant. Veuillez fournir un ID utilisateur valide.',
           statusCode: 400,
         });
+      } else if (isNaN(id)) {
+        return res.status(400).render('errorPage', {
+          error:
+            'Identifiant utilisateur invalide. Veuillez fournir un ID utilisateur valide.',
+          statusCode: 400,
+        });
       }
 
       // Find the user by ID via the User model, including associated hobbies
@@ -255,6 +260,12 @@ const adminController = {
         return res.status(400).render('errorPage', {
           error:
             'Identifiant utilisateur manquant. Veuillez fournir un ID utilisateur.',
+          statusCode: 400,
+        });
+      } else if (isNaN(id)) {
+        return res.status(400).render('errorPage', {
+          error:
+            'Identifiant utilisateur invalide. Veuillez fournir un ID utilisateur valide.',
           statusCode: 400,
         });
       }
@@ -308,6 +319,12 @@ const adminController = {
         return res.status(400).render('errorPage', {
           error:
             'Identifiant utilisateur manquant. Veuillez fournir un ID utilisateur.',
+          statusCode: 400,
+        });
+      } else if (isNaN(id)) {
+        return res.status(400).render('errorPage', {
+          error:
+            'Identifiant utilisateur invalide. Veuillez fournir un ID utilisateur valide.',
           statusCode: 400,
         });
       }
@@ -434,6 +451,7 @@ const adminController = {
     if (req.session.admin) {
       // Extract the event ID from the request parameters
       const { id } = req.params;
+
       // Return an error response if the event ID is missing
       if (!id) {
         return res.status(400).render('errorPage', {
@@ -441,7 +459,14 @@ const adminController = {
             "Identifiant de l'événement manquant. Veuillez fournir un ID d'événement valide.",
           statusCode: 400,
         });
+      } else if (isNaN(id)) {
+        return res.status(400).render('errorPage', {
+          error:
+            "Identifiant de l'événement invalide. Veuillez fournir un ID d'événement valide.",
+          statusCode: 400,
+        });
       }
+
       // Find the event by ID via the Event model
       const event = await Event.findByPk(id);
       // Return an error response if the event is not found
@@ -459,6 +484,7 @@ const adminController = {
       }
       // Delete the event from the database and return a success message
       await event.destroy();
+
       res
         .status(204)
         .json({ message: 'The event has been deleted successfully' });
@@ -479,6 +505,12 @@ const adminController = {
         return res.status(400).render('errorPage', {
           error:
             "Identifiant de l'événement manquant. Veuillez fournir un ID d'événement.",
+          statusCode: 400,
+        });
+      } else if (isNaN(id)) {
+        return res.status(400).render('errorPage', {
+          error:
+            "Identifiant de l'événement invalide. Veuillez fournir un ID d'événement valide.",
           statusCode: 400,
         });
       }
@@ -573,7 +605,7 @@ const adminController = {
       // Check if a new file was uploaded
       if (req.file) {
         // Extract the old public ID for the image from the existing picture_id
-        const oldPictureId = picture_id;
+        const oldPictureId = eventToUpdate.picture_id;
 
         // Update picture path and ID with the new file details
         picture_url = req.file.path;

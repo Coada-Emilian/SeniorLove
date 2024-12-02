@@ -317,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Event page update button behavior
   function eventSubmitButton() {
-    // Get the event submit button adn the form by ID
+    // Get the event submit button and the form by ID
     const eventUpdateButton = document.getElementById('event-update_btn');
     const form = document.getElementById('event-form');
     // If the event submit button exists
@@ -357,7 +357,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function setMinTimeAndDate() {
     // Get today's date and time
     const today = new Date();
-    const todayDate = new Date().toISOString().split('T')[0];
+    const currentDate = new Date().toISOString().split('T')[0];
     const currentTime = today.toLocaleTimeString([], {
       hour: '2-digit',
       minute: '2-digit',
@@ -371,7 +371,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // If the date input exists, set the minimum date and add an event listener
     if (dateElement) {
       // Set the minimum date to today
-      dateElement.setAttribute('min', todayDate);
+      dateElement.setAttribute('min', currentDate);
       // Add an event listener to the date input
       dateElement.addEventListener('change', function () {
         // Check if the selected date is today

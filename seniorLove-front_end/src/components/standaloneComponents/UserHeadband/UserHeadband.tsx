@@ -43,6 +43,7 @@ export default function UserHeadband({
     setIsAuthenticated(false);
     removeTokenFromLocalStorage();
   };
+  
   return (
     <div className="bg-gradient-to-r from-gray-100 via-white to-gray-100 p-2 w-full font-bold text-primaryText">
       <div className="flex items-center justify-center space-x-4">

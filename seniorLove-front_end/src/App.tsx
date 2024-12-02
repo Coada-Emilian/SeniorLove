@@ -72,6 +72,7 @@ export default function App() {
       clearInterval(intervalId);
     };
   }, [userToken, isAuthenticated]);
+  
   return (
     <>
      {isAuthenticated ? (

@@ -8,10 +8,10 @@ import session from 'express-session'; // Import session middleware for managing
 // Import routers and middleware
 import { publicRouter } from './src/routers/publicRouter.js';
 import { privateRouter } from './src/routers/privateRouter.js';
+import { adminRouter } from './src/routers/adminRouter.js';
 import { bodySanitizerMiddleware } from './src/middlewares/bodySanitizer.js';
 import { checkLoggedIn } from './src/middlewares/checkLoggedIn.js';
 import { checkToken } from './src/middlewares/checkToken.js';
-import { adminRouter } from './src/routers/adminRouter.js';
 
 // Convert import.meta.url to __filename and __dirname for file path handling
 const __filename = fileURLToPath(import.meta.url);

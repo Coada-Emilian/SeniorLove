@@ -1,3 +1,5 @@
+// Purpose : Test file for computeAge function
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { describe, expect, test } from '@jest/globals';
 

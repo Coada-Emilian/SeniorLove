@@ -12,6 +12,7 @@ export default function NavBar({ isUserAuthenticated }: NavBarProps) {
     { text: 'Évènements', to: '/events' },
     { text: 'Se connecter', to: '/login' },
   ];
+  
   const connectedNavBarButtons = [
     { text: 'Accueil', to: '/home' },
     { text: 'Découvrir', to: '/profiles' },

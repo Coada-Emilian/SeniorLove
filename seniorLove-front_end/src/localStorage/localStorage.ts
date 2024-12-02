@@ -1,3 +1,5 @@
+// Purpose: Functions to save, get and delete token from localStorage
+
 // Function that saves token in localStorage
 export const setTokenAndDataInLocalStorage = (
   token: string,

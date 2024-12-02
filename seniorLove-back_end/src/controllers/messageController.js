@@ -2,7 +2,6 @@
 
 import Joi from 'joi';
 import { Op } from 'sequelize';
-
 import { isActiveUser } from '../utils/checkUserStatus.js';
 import { User_message, User } from '../models/index.js';
 
@@ -13,7 +12,9 @@ const messageController = {
     // Get id
     const id = parseInt(req.user.userId, 10);
     // Check if id is a number
-    if (isNaN(id)) {
+    if (!id) {
+      return res.status(400).json({ message: 'Please provide a valid ID.' });
+    } else if (isNaN(id)) {
       return res
         .status(400)
         .json({ message: 'This ID is not valid. Please provide a valid ID.' });
@@ -47,7 +48,9 @@ const messageController = {
     const id = parseInt(req.user.userId, 10);
 
     // Check if id is a number
-    if (isNaN(id)) {
+    if (!id) {
+      return res.status(400).json({ message: 'Please provide a valid ID.' });
+    } else if (isNaN(id)) {
       return res
         .status(400)
         .json({ message: 'This ID is not valid. Please provide a valid ID.' });
@@ -116,17 +119,16 @@ const messageController = {
     const formattedContacts = [];
 
     // Loop through contacts and format them
-    contacts.forEach((converser) => {
-      const converserObject = {
-        id: converser.id,
-        name: converser.name,
-        picture_url: converser.picture_url,
-        messages: [
-          ...converser.received_messages,
-          ...converser.sent_messages,
-        ].sort((a, b) => a.created_at - b.created_at),
+    contacts.forEach((contact) => {
+      const contactObject = {
+        id: contact.id,
+        name: contact.name,
+        picture_url: contact.picture_url,
+        messages: [...contact.received_messages, ...contact.sent_messages].sort(
+          (a, b) => a.created_at - b.created_at
+        ),
       };
-      formattedContacts.push(converserObject);
+      formattedContacts.push(contactObject);
     });
 
     // Send the formatted contacts if request is successful
@@ -138,7 +140,9 @@ const messageController = {
     const id = parseInt(req.user.userId, 10);
 
     // Check if id is a number
-    if (isNaN(id)) {
+    if (!id) {
+      return res.status(400).json({ message: 'Please provide a valid ID.' });
+    } else if (isNaN(id)) {
       return res.status(400).json({ message: 'This id is not valid' });
     }
 

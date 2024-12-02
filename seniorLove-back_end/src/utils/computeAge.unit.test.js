@@ -1,4 +1,4 @@
-// Unit test for the computeAge function
+// Purpose: test computeAge function.
 
 import computeAge from './computeAge.js';
 

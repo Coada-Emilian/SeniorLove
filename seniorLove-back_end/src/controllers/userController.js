@@ -3,7 +3,6 @@
 import Joi from 'joi';
 import { Op } from 'sequelize';
 import { v2 as cloudinary } from 'cloudinary';
-
 import { isActiveUser } from '../utils/checkUserStatus.js';
 import { User, Hobby, Event, User_hobby } from '../models/index.js';
 import computeAge from '../utils/computeAge.js';
@@ -17,7 +16,9 @@ const userController = {
     const excludedUserId = req.user.userId;
 
     // Check if the ID is a number
-    if (isNaN(id)) {
+    if (!excludedUserId) {
+      return res.status(400).json({ message: 'Please provide a valid ID.' });
+    } else if (isNaN(excludedUserId)) {
       return res
         .status(400)
         .json({ message: 'This ID is not valid. Please provide a valid ID.' });
@@ -57,7 +58,9 @@ const userController = {
     const userId = parseInt(req.params.userId, 10);
 
     // Check if the ID is a number
-    if (isNaN(userId)) {
+    if (!userId) {
+      return res.status(400).json({ message: 'Please provide a valid ID.' });
+    } else if (isNaN(userId)) {
       return res
         .status(400)
         .json({ message: 'This ID is not valid. Please provide a valid ID.' });
@@ -122,7 +125,9 @@ const userController = {
     const id = parseInt(req.user.userId, 10);
 
     // Check if the ID is a number
-    if (isNaN(id)) {
+    if (!id) {
+      return res.status(400).json({ message: 'Please provide a valid ID.' });
+    } else if (isNaN(id)) {
       return res
         .status(400)
         .json({ message: 'This ID is not valid. Please provide a valid ID.' });
@@ -180,7 +185,9 @@ const userController = {
     const id = parseInt(req.user.userId, 10);
 
     // Check if the ID is a number
-    if (isNaN(id)) {
+    if (!id) {
+      return res.status(400).json({ message: 'Please provide a valid ID.' });
+    } else if (isNaN(id)) {
       return res
         .status(400)
         .json({ message: 'This ID is not valid. Please provide a valid ID.' });
@@ -367,7 +374,9 @@ const userController = {
     const userId = parseInt(req.user.userId, 10);
 
     // Check if the ID is a number
-    if (isNaN(id)) {
+    if (!id) {
+      return res.status(400).json({ message: 'Please provide a valid ID.' });
+    } else if (isNaN(id)) {
       return res
         .status(400)
         .json({ message: 'This ID is not valid. Please provide a valid ID.' });
@@ -379,12 +388,15 @@ const userController = {
     // Return a 204 No Content response
     res.status(204).end();
   },
+  // Get all user hobbies
   getAllSameInterestUsers: async (req, res) => {
     // Get the id, and check if it's a number
     const myId = parseInt(req.user.userId);
 
     // Check if the ID is a number
-    if (isNaN(myId)) {
+    if (!myId) {
+      return res.status(400).json({ message: 'Please provide a valid ID.' });
+    } else if (isNaN(myId)) {
       return res
         .status(400)
         .json({ message: 'This ID is not valid. Please provide a valid ID.' });
@@ -440,14 +452,22 @@ const userController = {
     const userId = parseInt(req.user.userId, 10);
 
     // Check if the event ID is a number
-    if (isNaN(eventId)) {
+    if (!eventId) {
+      return res
+        .status(400)
+        .json({ message: 'Please provide a valid event ID.' });
+    } else if (isNaN(eventId)) {
       return res.status(400).json({
         message: 'This event ID is not valid. Please provide a valid event ID.',
       });
     }
 
     // Check if the user ID is a number
-    if (isNaN(userId)) {
+    if (!userId) {
+      return res
+        .status(400)
+        .json({ message: 'Please provide a valid user ID.' });
+    } else if (isNaN(userId)) {
       return res.status(400).json({
         message: 'This user ID is not valid. Please provide a valid user ID.',
       });
@@ -490,9 +510,24 @@ const userController = {
     const userId = parseInt(req.user.userId, 10);
 
     // Check if the user ID is a number
-    if (isNaN(userId)) {
+    if (!userId) {
+      return res
+        .status(400)
+        .json({ message: 'Please provide a valid user ID.' });
+    } else if (isNaN(userId)) {
       return res.status(400).json({
         message: 'This user ID is not valid. Please provide a valid user ID.',
+      });
+    }
+
+    // Check if the event ID is a number
+    if (!eventId) {
+      return res
+        .status(400)
+        .json({ message: 'Please provide a valid event ID.' });
+    } else if (isNaN(eventId)) {
+      return res.status(400).json({
+        message: 'This event ID is not valid. Please provide a valid event ID.',
       });
     }
 
@@ -532,7 +567,9 @@ const userController = {
     const id = parseInt(req.user.userId, 10);
 
     // Check if the user ID is a number
-    if (isNaN(id)) {
+    if (!id) {
+      return res.status(400).json({ message: 'Please provide a valid ID.' });
+    } else if (isNaN(id)) {
       return res.status(400).json({
         message: 'This ID is not valid. Please provide a valid ID.',
       });
@@ -546,7 +583,7 @@ const userController = {
     }
 
     // Get the file path and filename
-    const { path: filePath, filename } = req.file;
+    const { filePath, filename } = req.file;
 
     // Retrieve user to get the old picture ID
     const user = await User.findByPk(id);

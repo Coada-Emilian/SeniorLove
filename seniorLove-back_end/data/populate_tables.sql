@@ -1,4 +1,4 @@
--- Purpose: Populate tables with "events" and "hobbies" sample data for testing purposes
+-- Purpose: Populate the tables with sample data.
 -- !!! Insertion of users data is made with node script populate_tables_users.js which has to be executed BEFORE this present SQL script !!
 
 -- SQLBook: Code

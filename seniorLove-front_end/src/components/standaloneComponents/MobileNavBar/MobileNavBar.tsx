@@ -28,6 +28,7 @@ export default function MobileNavBar({
       href: '/login',
     },
   ];
+
   const connectedMenuItems = [
     {
       logo: DiscoverLogo,
@@ -55,6 +56,7 @@ export default function MobileNavBar({
       href: '/myProfile',
     },
   ];
+  
   return (
     <div className="bg-white shadow-mobileNav w-full px-3 pt-2 flex justify-around items-center text-primaryText fixed bottom-0 z-10 md:hidden">
       {isUserAuthenticated

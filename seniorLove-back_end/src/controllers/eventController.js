@@ -11,6 +11,7 @@ const eventController = {
       include: [{ model: Hobby, as: 'hobbies' }],
       order: [['date', 'ASC']],
     });
+
     // If no events are found, return an error
     if (!allEvents) {
       return res.status(404).json({
@@ -27,7 +28,9 @@ const eventController = {
     // Get the id from the request parameters
     const id = parseInt(req.params.eventId);
     // Check if the id is a number
-    if (isNaN(id)) {
+    if (!id) {
+      return res.status(400).json({ message: 'Please provide a valid ID.' });
+    } else if (isNaN(id)) {
       return res
         .status(400)
         .json({ message: 'This ID is not valid. Please provide a valid ID.' });
@@ -36,6 +39,7 @@ const eventController = {
     const oneEvent = await Event.findByPk(id, {
       include: [{ model: Hobby, as: 'hobbies' }],
     });
+    
     // If the event does not exist, return an error
     if (!oneEvent) {
       return res

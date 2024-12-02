@@ -1,3 +1,5 @@
+// Purpose: Test dateAndTimeUtils functions.
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { describe, expect, test } from '@jest/globals';
 

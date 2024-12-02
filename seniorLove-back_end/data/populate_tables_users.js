@@ -1,4 +1,4 @@
-// Purpose: Populate the users table with data from users_data_70.json
+// Purpose: Populate the users and admin tables with data from users_data_70.json and admins_data.json
 
 // Imports
 import { pgClient } from './pgClient.js';
@@ -11,16 +11,19 @@ await pgClient.connect();
 
 // Insert data into the users table
 for (const user of users) {
-  const name = user.name;
-  const birth = user.birth_date;
-  const description = user.description;
-  const gender = user.gender;
-  const picture_url = user.picture_url;
-  const email = user.email;
-  const status = user.status;
+  const {
+    name,
+    birth_date,
+    description,
+    gender,
+    picture_url,
+    email,
+    status,
+    password,
+  } = user;
 
   // Hash the password
-  const password = Scrypt.hash(user.password);
+  const hashedPassword = Scrypt.hash(password);
 
   // Insert the user into the database with SQL injection protection
   const query = `INSERT INTO users (name, birth_date, description, gender, picture_url, email, password, status)
@@ -29,26 +32,25 @@ for (const user of users) {
   // Execute the query
   const result = await pgClient.query(query, [
     name,
-    birth,
+    birth_date,
     description,
     gender,
     picture_url,
     email,
-    password,
+    hashedPassword,
     status,
   ]);
   console.log(result.rows);
 }
 
 for (const admin of admins) {
-  const name = admin.name;
-  const email = admin.email;
-  const password = Scrypt.hash(admin.password);
+  const { name, email, password } = admin;
+  const hashedPassword = Scrypt.hash(password);
 
   const query = `INSERT INTO administrators (name, email, password)
         VALUES ($1,$2,$3) RETURNING *`;
 
-  const result = await pgClient.query(query, [name, email, password]);
+  const result = await pgClient.query(query, [name, email, hashedPassword]);
   console.log(result.rows);
 }
 
