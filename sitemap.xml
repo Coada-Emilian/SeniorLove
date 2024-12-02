@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Homepage -->
+  <url>
+    <loc>https://www.seniortLove.fr/</loc>
+    <lastmod>2024-12-02</lastmod>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Authenticated User Routes -->
+  <url>
+    <loc>https://www.seniortLove.fr/home</loc>
+    <lastmod>2024-12-02</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.seniortLove.fr/profiles</loc>
+    <lastmod>2024-12-02</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.seniortLove.fr/profiles/{userId}</loc>
+    <lastmod>2024-12-02</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.seniortLove.fr/messages</loc>
+    <lastmod>2024-12-02</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.seniortLove.fr/myProfile</loc>
+    <lastmod>2024-12-02</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.seniortLove.fr/events</loc>
+    <lastmod>2024-12-02</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.seniortLove.fr/events/{id}</loc>
+    <lastmod>2024-12-02</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Non-Authenticated User Routes -->
+  <url>
+    <loc>https://www.seniortLove.fr/login</loc>
+    <lastmod>2024-12-02</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Common Pages -->
+  <url>
+    <loc>https://www.seniortLove.fr/guidelines</loc>
+    <lastmod>2024-12-02</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.seniortLove.fr/signal</loc>
+    <lastmod>2024-12-02</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.seniortLove.fr/confidentiality</loc>
+    <lastmod>2024-12-02</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.seniortLove.fr/conditions</loc>
+    <lastmod>2024-12-02</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.seniortLove.fr/cookies</loc>
+    <lastmod>2024-12-02</lastmod>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Error Page -->
+  <url>
+    <loc>https://www.seniortLove.fr/loggedOut</loc>
+    <lastmod>2024-12-02</lastmod>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://www.seniortLove.fr/*</loc>
+    <lastmod>2024-12-02</lastmod>
+    <priority>0.5</priority>
+  </url>
+</sitemapindex>

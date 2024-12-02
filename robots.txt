@@ -1,0 +1,14 @@
+# Bloque l'accès à tous les robots pour des sections spécifiques
+User-agent: *
+Disallow: /admin/
+
+# Autorise Googlebot à accéder à tout sauf /admin/
+User-agent: Googlebot
+Disallow: /admin/
+
+# Bloque Bingbot pour tout le site
+User-agent: Bingbot
+Disallow: /
+
+# Fournit le chemin du fichier sitemap (à remplacer une fois le site déployé)
+Sitemap: https://www.seniorLove.fr/sitemap.xml
