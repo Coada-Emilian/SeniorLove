@@ -23,10 +23,5 @@
     "name": "Widi",
     "email": "widi@seniorlove.com",
     "password": "widiPass123"
-  },
-  {
-    "name": "admin1",
-    "email": "admin1@seniorlove.com",
-    "password": "admin1pass123"
   }
 ]

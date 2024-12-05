@@ -11,7 +11,7 @@
     "test": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --testPathPattern=unit.test",
     "db:create": "psql -U seniorlove -d seniorlove -f data/create_tables.sql",
     "db:populate": "node data/populate_tables_users.js && psql -U seniorlove -d seniorlove -f data/populate_tables.sql",
-    "db:reset" : "pnpm run db:create && pnpm run db:populate"
+    "db:reset": "pnpm run db:create && pnpm run db:populate"
   },
   "keywords": [],
   "author": "Emilian COADA, Thomas BAZIN, Widi MARTIAL, Oliva DRUYER, Kevin LEVEQUE",

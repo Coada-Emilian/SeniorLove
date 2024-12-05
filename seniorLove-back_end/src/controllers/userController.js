@@ -371,7 +371,8 @@ const userController = {
   // Delete user
   deleteUser: async (req, res) => {
     // Get the user ID to delete and make sure it's a number
-    const userId = parseInt(req.user.userId, 10);
+    const id = parseInt(req.user.userId, 10);
+    console.log(req.user);
 
     // Check if the ID is a number
     if (!id) {
@@ -383,7 +384,7 @@ const userController = {
     }
     // Proceed with deletion
     await User.destroy({
-      where: { id: userId },
+      where: { id },
     });
     // Return a 204 No Content response
     res.status(204).end();

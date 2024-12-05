@@ -351,7 +351,7 @@ const adminController = {
 
       // Redirect to the users page after the user deletion
       res
-        .status(204)
+        .status(200)
         .json({ message: 'The user has been successfully deleted.' });
     } else {
       return res.status(401).redirect('/admin');
@@ -396,6 +396,24 @@ const adminController = {
   createEvent: async (req, res) => {
     // Check if the user is an admin
     if (req.session.admin) {
+      // Joi schema configuration for the event data
+      const eventSchema = Joi.object({
+        name: Joi.string().required(),
+        date: Joi.date().required(),
+        location: Joi.string().required(),
+        time: Joi.string().required(),
+        hobbies: Joi.array().items(Joi.number()).required(),
+        description: Joi.string().required(),
+      });
+
+      const { error } = eventSchema.validate(req.body);
+      if (error) {
+        return res.status(400).render('errorPage', {
+          error: error.message,
+          statusCode: 400,
+        });
+      }
+
       // Extract event details from the request body
       const { name, date, location, time, hobbies, description } = req.body;
 

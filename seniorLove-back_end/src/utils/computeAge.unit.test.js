@@ -14,7 +14,7 @@ describe('Test computeAge', () => {
   test('Argument passed is not a string', () => {
     expect(() => {
       computeAge(1950);
-    }).toThrow('Error: Invalid input. Expected a date string.');
+    }).toThrow('Error: No input provided. Please supply a date string.');
   });
 
   test('Should throw an error if argument passed is not a valid date', () => {
