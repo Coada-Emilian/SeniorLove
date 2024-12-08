@@ -86,6 +86,7 @@ export default function EditImageModal({
           picture_url: result.pictureUrl,
         }));
         setEditedProfile((prev) => ({ ...prev, picture_id: result.pictureId }));
+        setPreviewUrl(result.pictureUrl);
         updateDataInLocalStorage(result.pictureUrl, '');
         setIsImageModalOpen(false);
       } else {

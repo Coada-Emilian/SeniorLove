@@ -10,8 +10,7 @@ Modal.setAppElement('#root');
 export default function Root() {
   return (
     <BrowserRouter>
-      <App
-      />
+      <App />
     </BrowserRouter>
   );
 }
